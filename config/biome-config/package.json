@@ -1,0 +1,13 @@
+{
+	"name": "@saas/biome",
+	"version": "0.0.0",
+	"type": "module",
+	"exports": "./biome.json",
+	"scripts": {
+		"lint-biome": "biome check .",
+		"format": "biome check . --write"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "latest"
+	}
+}
