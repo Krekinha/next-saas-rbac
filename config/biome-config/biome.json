@@ -11,7 +11,9 @@
 	},
 	"formatter": {
 		"enabled": true,
-		"indentStyle": "tab"
+		"indentStyle": "tab",
+		"indentWidth": 4,
+		"lineWidth": 85
 	},
 	"organizeImports": {
 		"enabled": true
@@ -23,6 +25,9 @@
 			"correctness": {
 				"noUnusedImports": "warn",
 				"noUnusedVariables": "warn"
+			},
+			"nursery": {
+				"useSortedClasses": "info"
 			}
 		}
 	},

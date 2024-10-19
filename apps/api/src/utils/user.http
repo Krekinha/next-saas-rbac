@@ -1,0 +1,63 @@
+# GET ALL
+GET http://localhost:3333/users HTTP/1.1
+
+
+###
+
+# GET UNIQUE
+GET http://localhost:3333/users/clyxre0v50001rezvkpfe14rp HTTP/1.1
+
+
+###
+
+
+# CREATE
+POST http://localhost:3333/users HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Dionison",
+    "email": "krek@gmail.com",
+    "password": "123456"
+}
+
+
+
+###
+
+
+# UPDATE ONE
+PUT http://localhost:3333/users/update/clyxt2i6e0002xryyf9gnohxk HTTP/1.1
+Content-Type: application/json
+
+{
+    "nome": "Deinisson",
+    "email": "theo@gmail.com",
+    "avatar": "456456"
+}
+
+###
+
+
+# DELETE ONE
+DELETE http://localhost:3333/users/del/clyxt2i6e0002xryyf9gnohxk HTTP/1.1
+
+
+###
+
+
+# LOGIN
+POST http://localhost:3333/sessions/password HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "john@gmail.com",
+    "password": "789456"
+}
+
+###
+
+# PROFILE
+GET http://localhost:3333/profile HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5MTEyZDZhYi0xYTQ5LTQ1N2MtYTg4MS1kMGFjODE2MWYwOWEiLCJpYXQiOjE3Mjg0ODI1MDgsImV4cCI6MTcyOTA4NzMwOH0.QvRv0kj6qmkUrJMVpvlULfMGcJvBZMbuZTETaFkjB_U
