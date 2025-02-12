@@ -8,6 +8,7 @@ import { ProfileButton } from "./profile-button";
 
 export async function Header() {
 	const permissions = await ability();
+	console.log(permissions);
 
 	return (
 		<div className="max-auto flex max-w-full items-center justify-between px-4">
