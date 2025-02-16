@@ -65,3 +65,6 @@ Este projeto contém todos os boilerplates necessários para configurar um SaaS 
 | Deletar um projeto       |      ✅       |   ❌   |    ❌   |     ❌    |
 | Obter detalhes de faturamento |  ✅   |   ❌   |    ✅   |     ❌    |
 | Exportar detalhes de faturamento | ✅ |   ❌   |    ❌   |     ❌    |
+
+
+dotenv -e ../../.env -- 
