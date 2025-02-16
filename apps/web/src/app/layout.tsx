@@ -1,15 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { cn } from "@/lib/utils";
-import { Inter } from "next/font/google";
+
+import { ThemeProvider } from "next-themes";
+
 export const metadata: Metadata = {
 	title: "Create Next App",
 };
-
-const inter = Inter({
-	subsets: ["latin"],
-	display: "swap",
-});
 
 export default function RootLayout({
 	children,
@@ -17,8 +13,16 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" className={cn("dark", inter.className)}>
-			<body>{children}</body>
+		<html lang="en" suppressHydrationWarning>
+			<body>
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="dark"
+					disableTransitionOnChange
+				>
+					{children}
+				</ThemeProvider>
+			</body>
 		</html>
 	);
 }

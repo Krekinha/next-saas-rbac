@@ -21,6 +21,7 @@ export async function middleware(request: NextRequest) {
 export const config = {
 	matcher: [
 		/*
+		/* Esse middleware é executado em todas as rotas, exceto:
 		 * Match all request paths except for the ones starting with:
 		 * - api (API routes)
 		 * - _next/static (static files)
