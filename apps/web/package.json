@@ -1,5 +1,5 @@
 {
-	"name": "web",
+	"name": "@saaa/web",
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
@@ -33,6 +33,7 @@
 		"@saas/auth": "*",
 		"@saas/biome": "*",
 		"@saas/tsconfig": "*",
+		"@saas/env": "*",
 		"@types/node": "^20",
 		"@types/react": "^18",
 		"@types/react-dom": "^18",

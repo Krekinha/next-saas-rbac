@@ -1,8 +1,9 @@
+import { env } from "@saas/env";
 import { CookiesFn } from "cookies-next/lib/types";
 import ky from "ky";
 
 export const api = ky.create({
-	prefixUrl: "http://localhost:3333",
+	prefixUrl: env.NEXT_PUBLIC_API_URL, //"http://localhost:3333",
 	hooks: {
 		beforeRequest: [
 			async (request) => {
