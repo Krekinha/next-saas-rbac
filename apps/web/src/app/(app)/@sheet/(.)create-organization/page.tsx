@@ -1,10 +1,11 @@
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { InterceptSheetContent } from "@/components/intercept-sheet-content";
+import { Sheet, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { OrganizationForm } from "../../create-organization/organization-form";
 
 export default function CreateOrganization() {
 	return (
 		<Sheet defaultOpen>
-			<SheetContent>
+			<InterceptSheetContent>
 				<SheetHeader>
 					<SheetTitle>Create organization</SheetTitle>
 				</SheetHeader>
@@ -12,7 +13,7 @@ export default function CreateOrganization() {
 				<div className="space-y-4">
 					<OrganizationForm />
 				</div>
-			</SheetContent>
+			</InterceptSheetContent>
 		</Sheet>
 	);
 }
