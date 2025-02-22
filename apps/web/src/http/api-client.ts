@@ -1,4 +1,5 @@
 import { env } from "@saas/env";
+import { getCookie } from "cookies-next";
 import { CookiesFn } from "cookies-next/lib/types";
 import ky from "ky";
 
@@ -15,16 +16,12 @@ export const api = ky.create({
 				if (typeof window === "undefined") {
 					const { cookies: serverCookies } = await import("next/headers");
 					cookieStore = serverCookies;
+				}
 
-					// const token = getCookie("token", {
-					// 	cookies: cookieStore,
-					// });
+				const token = getCookie("token", { cookies: cookieStore });
 
-					const token = (await cookieStore()).get("token")?.value;
-
-					if (token) {
-						request.headers.set("Authorization", `Bearer ${token}`);
-					}
+				if (token) {
+					request.headers.set("Authorization", `Bearer ${token}`);
 				}
 			},
 		],

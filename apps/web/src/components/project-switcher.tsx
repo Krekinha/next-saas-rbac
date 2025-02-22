@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getProjects } from "@/http/get-projects";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronsUpDown, PlusCircleIcon } from "lucide-react";
@@ -19,11 +19,15 @@ import {
 export function ProjectSwitcher() {
 	const { slug: orgSlug } = useParams<{ slug: string }>();
 
+	// console.log("proje", projects);
+
 	const { data, isLoading } = useQuery({
 		queryKey: [orgSlug, "projects"],
 		queryFn: () => getProjects(orgSlug),
 		enabled: !!orgSlug,
 	});
+
+	console.log("data", data);
 
 	return (
 		<DropdownMenu>
@@ -48,20 +52,23 @@ export function ProjectSwitcher() {
 				className="w-[200px]"
 			>
 				<DropdownMenuGroup>
-					<DropdownMenuLabel>Organizations</DropdownMenuLabel>
-					{/* {organizations.map((organization) => ( */}
-					<DropdownMenuItem /*key={organization.id}*/ asChild>
-						<Link href={""}>
-							<Avatar className="mr-2 size-4">
-								{/* <AvatarImage
-										src={organization.avatarUrl ?? undefined}
-									/> */}
-								<AvatarFallback />
-							</Avatar>
-							<span className="line-clamp-1">Projeto teste</span>
-						</Link>
-					</DropdownMenuItem>
-					{/* ))} */}
+					<DropdownMenuLabel>Projects</DropdownMenuLabel>
+					{data &&
+						data.projects.map((project) => (
+							<DropdownMenuItem key={project.id} asChild>
+								<Link href={""}>
+									<Avatar className="mr-2 size-4">
+										<AvatarImage
+											src={project.avatarUrl ?? undefined}
+										/>
+										<AvatarFallback />
+									</Avatar>
+									<span className="line-clamp-1">
+										{project.name}
+									</span>
+								</Link>
+							</DropdownMenuItem>
+						))}
 					<DropdownMenuSeparator />
 					<DropdownMenuItem asChild>
 						<Link href="">

@@ -22,7 +22,8 @@ export async function Header() {
 				/>
 				<Slash className="-rotate-[24deg] size-3 text-border " />
 				<OrganizationSwitcher />
-
+				{/* <ProjectSwitcher /> */}
+				{/* <Teste /> */}
 				{permissions?.can("get", "Project") && (
 					<>
 						<Slash className="-rotate-[24deg] size-3 text-border " />

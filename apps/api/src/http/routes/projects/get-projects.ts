@@ -7,8 +7,7 @@ import { z } from "zod";
 import { UnauthorizedError } from "../_errors/unauthorized-error";
 
 export async function getProjects(app: FastifyInstance) {
-	app
-		.withTypeProvider<ZodTypeProvider>()
+	app.withTypeProvider<ZodTypeProvider>()
 		.register(auth)
 		.get(
 			"/organizations/:orgSlug/projects",
@@ -45,12 +44,14 @@ export async function getProjects(app: FastifyInstance) {
 			},
 			async (request, reply) => {
 				const { orgSlug } = request.params;
+				console.log("ROTA GET PROJECTS", orgSlug);
 
 				/*
 				 * 1. Obtem o id do usuário, a organização e
 				 * os dados como membro desta organização
 				 */
 				const userId = await request.getCurrentUserId();
+
 				const { organization, membership } =
 					await request.getUserMembership(orgSlug);
 
@@ -58,7 +59,6 @@ export async function getProjects(app: FastifyInstance) {
 				 * 2. Obtem as permissões do usuário
 				 */
 				const permissions = getUserPermissions(userId, membership.role);
-
 				/*
 				 * 3. Verifica se o usuário tem permissão para obter detalhes de um projeto
 				 */
@@ -97,6 +97,8 @@ export async function getProjects(app: FastifyInstance) {
 					},
 				});
 
+				// console.log("PROJECTS", projects);
+				console.log("data: ", userId);
 				return reply.send({ projects });
 			},
 		);
