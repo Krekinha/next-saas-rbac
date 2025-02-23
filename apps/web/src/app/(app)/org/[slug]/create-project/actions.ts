@@ -1,5 +1,7 @@
 "use server";
 
+import { getCurrentOrgSlug } from "@/auth/auth";
+import { createProject } from "@/http/create-project";
 // import { createProject } from "@/http/create-project";
 import { HTTPError } from "ky";
 import { z } from "zod";
@@ -24,10 +26,11 @@ export async function createProjectAction(data: FormData) {
 	const { name, description } = validatedFields.data;
 
 	try {
-		// await createProject({
-		// 	name,
-		// 	domain,
-		// });
+		await createProject({
+			org: await getCurrentOrgSlug().then()!,
+			name,
+			description,
+		});
 	} catch (error) {
 		console.log(error);
 		if (error instanceof HTTPError) {

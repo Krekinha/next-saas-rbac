@@ -7,11 +7,13 @@ import { redirect } from "next/navigation";
 export async function isAuthenticated() {
 	const cookiesInstance = await cookies();
 	return !!cookiesInstance.get("token")?.value;
+	// return getCookie("token");
 }
 
 export async function getCurrentOrgSlug() {
 	const cookiesInstance = await cookies();
 	return cookiesInstance.get("org")?.value;
+	// return getCookie("org") ?? null;
 }
 
 export async function getCurrentMembership() {
@@ -47,6 +49,8 @@ export async function ability() {
 export async function auth() {
 	const cookiesInstance = await cookies();
 	const token = cookiesInstance.get("token")?.value;
+
+	// const token = getCookie("token");
 
 	if (!token) {
 		redirect("/auth/sign-in");
