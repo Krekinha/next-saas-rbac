@@ -13,7 +13,7 @@ export async function Header() {
 	const permissions = await ability();
 
 	return (
-		<div className="mx-auto flex max-w-[1200px] items-center justify-between border-b pb-2">
+		<div className="mx-auto flex max-w-[1200px] items-center justify-between">
 			<div className="flex items-center gap-3">
 				<Image
 					src={githubIcon}
@@ -22,8 +22,6 @@ export async function Header() {
 				/>
 				<Slash className="-rotate-[24deg] size-3 text-border " />
 				<OrganizationSwitcher />
-				{/* <ProjectSwitcher /> */}
-				{/* <Teste /> */}
 				{permissions?.can("get", "Project") && (
 					<>
 						<Slash className="-rotate-[24deg] size-3 text-border " />

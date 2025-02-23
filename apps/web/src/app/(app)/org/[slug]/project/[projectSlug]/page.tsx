@@ -1,16 +1,7 @@
-import { Header } from "@/components/header";
-
-export default async function Project({
-	params,
-}: { params: { slug: string; projectSlug: string } }) {
-	const { projectSlug } = await params;
+export default async function Project() {
 	return (
-		<div className="space-y-4 py-4">
-			<Header />
-			<main className="mx-auto w-full max-w-[1200px]">
-				<h2>Project</h2>
-				<h1>{projectSlug}</h1>
-			</main>
+		<div className="space-y-4">
+			<h1 className="font-bold text-2xl">Project</h1>
 		</div>
 	);
 }
