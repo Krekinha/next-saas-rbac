@@ -19,9 +19,6 @@ interface GetProjectsResponse {
 }
 
 export async function getProjects(org: string) {
-	console.log("org: ", org);
-	// const instance = await api.head(`organizations/${org}/projects`);
-	// console.log("api: ", instance);
 	const result = await api
 		.get(`organizations/${org}/projects`)
 		.json<GetProjectsResponse>();

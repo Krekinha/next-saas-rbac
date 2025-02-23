@@ -3,10 +3,12 @@ import { type NextRequest, NextResponse } from "next/server";
 export async function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl;
 
+	console.log("PATHNAMEURL: ", pathname);
+
 	const response = NextResponse.next();
 
 	if (pathname.startsWith("/org/")) {
-		const slug = pathname.slice(5);
+		const slug = pathname.split("/")[2];
 		// return NextResponse.rewrite(`/org/${slug}`);
 
 		response.cookies.set("org", slug);
