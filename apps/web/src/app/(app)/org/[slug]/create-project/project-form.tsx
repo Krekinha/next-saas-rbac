@@ -5,10 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useFormState } from "@/hooks/use-form-state";
+import { queryClient } from "@/lib/react-query";
 import { AlertTriangle, CircleCheck, Loader2 } from "lucide-react";
+import { useParams } from "next/navigation";
 import { createProjectAction } from "./actions";
 
 export function ProjectForm() {
+	const { slug: orgSlug } = useParams<{ slug: string }>();
+
 	const [state, isPending, formAction] = useFormState(
 		createProjectAction,
 		onSuccess,
@@ -16,6 +20,7 @@ export function ProjectForm() {
 
 	function onSuccess() {
 		// router.push("/auth/sign-in");
+		queryClient.invalidateQueries({ queryKey: [orgSlug, "projects"] });
 	}
 	return (
 		<form onSubmit={formAction} className="space-y-4">
