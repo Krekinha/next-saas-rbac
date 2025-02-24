@@ -51,6 +51,7 @@ export async function auth() {
 	const token = cookiesInstance.get("token")?.value;
 
 	// const token = getCookie("token");
+	// const token = (await cookies()).get("org")?.value;
 
 	if (!token) {
 		redirect("/auth/sign-in");

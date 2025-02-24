@@ -5,45 +5,54 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useFormState } from "@/hooks/use-form-state";
+import type { OrganizationSchema } from "@/lib/utils";
 import { AlertTriangle, CircleCheck, Loader2 } from "lucide-react";
-import { createOrganizationAction } from "../create-organization/actions";
+import { createOrganizationAction, updateOrganizationAction } from "./actions";
 
-export function OrganizationForm() {
-	const [state, isPending, formAction] = useFormState(
-		createOrganizationAction,
-		onSuccess,
-	);
+interface organizationFormProps {
+	isUpdating?: boolean;
+	initialData?: OrganizationSchema;
+}
 
-	function onSuccess() {
-		// router.push("/auth/sign-in");
-	}
+export function OrganizationForm({
+	isUpdating = false,
+	initialData,
+}: organizationFormProps) {
+	const formAction = isUpdating
+		? updateOrganizationAction
+		: createOrganizationAction;
+
+	const [{ success, message, fieldErrors }, isPending, handleSubmit] =
+		useFormState(formAction);
+
 	return (
-		<form onSubmit={formAction} className="space-y-4">
-			{state.success === false && state.message && (
+		// <>testeform</>
+		<form onSubmit={handleSubmit} className="space-y-4">
+			{success === false && message && (
 				<Alert variant="destructive">
 					<AlertTriangle className="size-4" />
 					<AlertTitle>Save organization failed</AlertTitle>
 					<AlertDescription>
-						<p>{state.message}</p>
+						<p>{message}</p>
 					</AlertDescription>
 				</Alert>
 			)}
 
-			{state.success === true && state.message && (
+			{success === true && message && (
 				<Alert variant="success">
 					<CircleCheck className="size-4" />
 					<AlertTitle>Success!</AlertTitle>
 					<AlertDescription>
-						<p>{state.message}</p>
+						<p>{message}</p>
 					</AlertDescription>
 				</Alert>
 			)}
 			<div className="space-y-1">
 				<Label htmlFor="name">Organization name</Label>
-				<Input name="name" id="name" />
-				{state?.fieldErrors?.name && (
+				<Input name="name" id="name" defaultValue={initialData?.name} />
+				{fieldErrors?.name && (
 					<p className="font-medium text-red-500 text-xs dark:text-red-400">
-						{state.fieldErrors.name[0]}
+						{fieldErrors.name[0]}
 					</p>
 				)}
 			</div>
@@ -56,10 +65,11 @@ export function OrganizationForm() {
 					id="domain"
 					inputMode="url"
 					placeholder="example.com"
+					defaultValue={initialData?.domain ?? undefined}
 				/>
-				{state?.fieldErrors?.domain && (
+				{fieldErrors?.domain && (
 					<p className="font-medium text-red-500 text-xs dark:text-red-400">
-						{state.fieldErrors.domain[0]}
+						{fieldErrors.domain[0]}
 					</p>
 				)}
 			</div>
@@ -70,6 +80,7 @@ export function OrganizationForm() {
 						name="shouldAttachUsersByDomain"
 						id="shouldAttachUsersByDomain"
 						className="translate-y-0.5"
+						defaultChecked={initialData?.shouldAttachUsersByDomain}
 					/>
 					<label htmlFor="shouldAttachUsersByDomain" className="space-y-1">
 						<span className="font-medium text-sm leading-none">
@@ -82,9 +93,9 @@ export function OrganizationForm() {
 					</label>
 				</div>
 
-				{state?.fieldErrors?.shouldAttachUsersByDomain && (
+				{fieldErrors?.shouldAttachUsersByDomain && (
 					<p className="font-medium text-red-500 text-xs dark:text-red-400">
-						{state.fieldErrors.shouldAttachUsersByDomain[0]}
+						{fieldErrors.shouldAttachUsersByDomain[0]}
 					</p>
 				)}
 			</div>
