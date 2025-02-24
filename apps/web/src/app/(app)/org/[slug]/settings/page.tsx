@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { getOrganization } from "@/http/get-organization";
 import { OrganizationForm } from "../../organization-form";
+import { Billing } from "./billing";
 import { ShutDownOrganizationButton } from "./shutdown-organization-button";
 
 export default async function SettingsPage() {
@@ -62,7 +63,7 @@ export default async function SettingsPage() {
 					</Card>
 				)}
 			</div>
-			{canGetBilling && <div>Billing</div>}
+			{canGetBilling && <Billing />}
 		</div>
 	);
 }
