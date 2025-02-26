@@ -11,9 +11,9 @@ export async function createOrganizationAction(data: FormData) {
 	const validatedFields = organizationSchema.safeParse(Object.fromEntries(data));
 
 	if (!validatedFields.success) {
-		const fieldErrors = validatedFields.error.flatten().fieldErrors;
+		const errors = validatedFields.error.flatten().fieldErrors;
 
-		return { success: false, message: null, fieldErrors };
+		return { success: false, message: null, errors };
 	}
 	const { name, domain, shouldAttachUsersByDomain } = validatedFields.data;
 
@@ -28,7 +28,7 @@ export async function createOrganizationAction(data: FormData) {
 		if (error instanceof HTTPError) {
 			const { message } = await error.response.json();
 
-			return { success: false, message, fieldErrors: null };
+			return { success: false, message, errors: null };
 		}
 
 		console.error(error);
@@ -36,14 +36,14 @@ export async function createOrganizationAction(data: FormData) {
 		return {
 			success: false,
 			message: "Unexpected error, try again a few minutes",
-			fieldErrors: null,
+			errors: null,
 		};
 	}
 
 	return {
 		success: true,
 		message: "Successfully saved the organization",
-		fieldErrors: null,
+		errors: null,
 	};
 }
 
@@ -52,9 +52,9 @@ export async function updateOrganizationAction(data: FormData) {
 	const result = organizationSchema.safeParse(Object.fromEntries(data));
 
 	if (!result.success) {
-		const fieldErrors = result.error.flatten().fieldErrors;
+		const errors = result.error.flatten().fieldErrors;
 
-		return { success: false, message: null, fieldErrors };
+		return { success: false, message: null, errors };
 	}
 
 	const { name, domain, shouldAttachUsersByDomain } = result.data;
@@ -71,7 +71,7 @@ export async function updateOrganizationAction(data: FormData) {
 		if (error instanceof HTTPError) {
 			const { message } = await error.response.json();
 
-			return { success: false, message, fieldErrors: null };
+			return { success: false, message, errors: null };
 		}
 
 		console.error(error);
@@ -79,12 +79,12 @@ export async function updateOrganizationAction(data: FormData) {
 		return {
 			success: false,
 			message: "Unexpected error, try again in a few minutes",
-			fieldErrors: null,
+			errors: null,
 		};
 	}
 	return {
 		success: true,
 		message: "Successfully saved organization",
-		fieldErrors: null,
+		errors: null,
 	};
 }

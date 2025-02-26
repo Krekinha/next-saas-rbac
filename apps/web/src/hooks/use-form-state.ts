@@ -1,9 +1,10 @@
 import { useState, useTransition } from "react";
+import { requestFormReset } from "react-dom";
 
 interface FormState {
 	success: boolean;
 	message: string | null;
-	fieldErrors: Record<string, string[]> | null;
+	errors: Record<string, string[]> | null;
 }
 /**
  * Hook para gerenciar o estado do formulário e lidar com submissões.
@@ -19,26 +20,33 @@ export function useFormState(
 	onSuccess?: () => void | Promise<void>,
 	initialState?: FormState,
 ) {
-	const [state, setState] = useState<FormState>(
+	const [isPending, startTransition] = useTransition();
+
+	const [formState, setFormState] = useState(
 		initialState ?? {
 			success: false,
 			message: null,
-			fieldErrors: null,
+			errors: null,
 		},
 	);
 
-	async function formAction(event: React.FormEvent<HTMLFormElement>) {
+	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-		const formData = new FormData(event.currentTarget);
+
+		const form = event.currentTarget;
+		const data = new FormData(form);
+
 		startTransition(async () => {
-			const response = await action(formData);
-			setState(response);
-			if (response.success) {
-				await onSuccess?.();
+			const state = await action(data);
+
+			if (state.success === true && onSuccess) {
+				await onSuccess();
+				requestFormReset(form);
 			}
+
+			setFormState(state);
 		});
 	}
 
-	const [isPending, startTransition] = useTransition();
-	return [state, isPending, formAction] as const;
+	return [formState, handleSubmit, isPending] as const;
 }

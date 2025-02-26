@@ -16,11 +16,11 @@ const createProjectSchema = z.object({
 export async function createProjectAction(data: FormData) {
 	const validatedFields = createProjectSchema.safeParse(Object.fromEntries(data));
 	if (!validatedFields.success) {
-		const fieldErrors = validatedFields.error.flatten().fieldErrors;
+		const errors = validatedFields.error.flatten().fieldErrors;
 		return {
 			success: false,
 			message: null,
-			fieldErrors,
+			errors,
 		};
 	}
 	const { name, description } = validatedFields.data;
@@ -39,7 +39,7 @@ export async function createProjectAction(data: FormData) {
 			return {
 				success: false,
 				message,
-				fieldErrors: null,
+				errors: null,
 			};
 		}
 
@@ -47,13 +47,13 @@ export async function createProjectAction(data: FormData) {
 		return {
 			success: false,
 			message: "Unexpected error",
-			fieldErrors: null,
+			errors: null,
 		};
 	}
 
 	return {
 		success: true,
 		message: "Successfully saved the project",
-		fieldErrors: null,
+		errors: null,
 	};
 }

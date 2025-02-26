@@ -9,8 +9,7 @@ import { BadRequestError } from "../_errors/bad-request-error";
 import { UnauthorizedError } from "../_errors/unauthorized-error";
 
 export async function createInvite(app: FastifyInstance) {
-	app
-		.withTypeProvider<ZodTypeProvider>()
+	app.withTypeProvider<ZodTypeProvider>()
 		.register(auth)
 		.post(
 			"/organizations/:slug/invites",
@@ -60,7 +59,7 @@ export async function createInvite(app: FastifyInstance) {
 
 				const { email, role } = request.body;
 
-				const [_, domain] = email;
+				const [_, domain] = email.split("@");
 
 				/**
 				 * 4. Não permite criar um convite para um usuário que já possui um domínio

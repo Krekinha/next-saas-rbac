@@ -22,7 +22,7 @@ export function OrganizationForm({
 		? updateOrganizationAction
 		: createOrganizationAction;
 
-	const [{ success, message, fieldErrors }, isPending, handleSubmit] =
+	const [{ success, message, errors }, handleSubmit, isPending] =
 		useFormState(formAction);
 
 	return (
@@ -50,9 +50,9 @@ export function OrganizationForm({
 			<div className="space-y-1">
 				<Label htmlFor="name">Organization name</Label>
 				<Input name="name" id="name" defaultValue={initialData?.name} />
-				{fieldErrors?.name && (
+				{errors?.name && (
 					<p className="font-medium text-red-500 text-xs dark:text-red-400">
-						{fieldErrors.name[0]}
+						{errors.name[0]}
 					</p>
 				)}
 			</div>
@@ -67,9 +67,9 @@ export function OrganizationForm({
 					placeholder="example.com"
 					defaultValue={initialData?.domain ?? undefined}
 				/>
-				{fieldErrors?.domain && (
+				{errors?.domain && (
 					<p className="font-medium text-red-500 text-xs dark:text-red-400">
-						{fieldErrors.domain[0]}
+						{errors.domain[0]}
 					</p>
 				)}
 			</div>
@@ -93,9 +93,9 @@ export function OrganizationForm({
 					</label>
 				</div>
 
-				{fieldErrors?.shouldAttachUsersByDomain && (
+				{errors?.shouldAttachUsersByDomain && (
 					<p className="font-medium text-red-500 text-xs dark:text-red-400">
-						{fieldErrors.shouldAttachUsersByDomain[0]}
+						{errors.shouldAttachUsersByDomain[0]}
 					</p>
 				)}
 			</div>

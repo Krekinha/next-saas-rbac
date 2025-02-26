@@ -1,3 +1,4 @@
+import { roleSchema } from "@saas/auth";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
@@ -46,3 +47,8 @@ export const organizationSchema = z
 	);
 
 export type OrganizationSchema = z.infer<typeof organizationSchema>;
+
+export const inviteSchema = z.object({
+	email: z.string().email({ message: "Invalid e-mail address" }),
+	role: roleSchema,
+});

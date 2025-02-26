@@ -5,50 +5,50 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useFormState } from "@/hooks/use-form-state";
-import { queryClient } from "@/lib/react-query";
 import { AlertTriangle, CircleCheck, Loader2 } from "lucide-react";
-import { useParams } from "next/navigation";
 import { createProjectAction } from "./actions";
 
 export function ProjectForm() {
-	const { slug: orgSlug } = useParams<{ slug: string }>();
+	// const { slug: orgSlug } = useParams<{ slug: string }>();
 
-	const [state, isPending, formAction] = useFormState(
-		createProjectAction,
-		onSuccess,
-	);
+	const [{ success, message, errors }, handleSubmit, isPending] =
+		useFormState(createProjectAction);
+	// const [state, isPending, formAction] = useFormState(
+	// 	createProjectAction,
+	// 	onSuccess,
+	// );
 
-	function onSuccess() {
-		// router.push("/auth/sign-in");
-		queryClient.invalidateQueries({ queryKey: [orgSlug, "projects"] });
-	}
+	// function onSuccess() {
+	// 	// router.push("/auth/sign-in");
+	// 	queryClient.invalidateQueries({ queryKey: [orgSlug, "projects"] });
+	// }
 	return (
-		<form onSubmit={formAction} className="space-y-4">
-			{state.success === false && state.message && (
+		<form onSubmit={handleSubmit} className="space-y-4">
+			{success === false && message && (
 				<Alert variant="destructive">
 					<AlertTriangle className="size-4" />
 					<AlertTitle>Save project failed!</AlertTitle>
 					<AlertDescription>
-						<p>{state.message}</p>
+						<p>{message}</p>
 					</AlertDescription>
 				</Alert>
 			)}
 
-			{state.success === true && state.message && (
+			{success === true && message && (
 				<Alert variant="success">
 					<CircleCheck className="size-4" />
 					<AlertTitle>Success!</AlertTitle>
 					<AlertDescription>
-						<p>{state.message}</p>
+						<p>{message}</p>
 					</AlertDescription>
 				</Alert>
 			)}
 			<div className="space-y-1">
 				<Label htmlFor="name">Project name</Label>
 				<Input name="name" id="name" />
-				{state?.fieldErrors?.name && (
+				{errors?.name && (
 					<p className="font-medium text-red-500 text-xs dark:text-red-400">
-						{state.fieldErrors.name[0]}
+						{errors.name[0]}
 					</p>
 				)}
 			</div>
@@ -56,9 +56,9 @@ export function ProjectForm() {
 			<div className="space-y-1">
 				<Label htmlFor="description">Description</Label>
 				<Textarea name="description" id="description" />
-				{state?.fieldErrors?.description && (
+				{errors?.description && (
 					<p className="font-medium text-red-500 text-xs dark:text-red-400">
-						{state.fieldErrors.description[0]}
+						{errors.description[0]}
 					</p>
 				)}
 			</div>

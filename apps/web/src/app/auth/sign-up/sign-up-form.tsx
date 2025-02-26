@@ -37,9 +37,9 @@ export function SignUpForm() {
 				<div className="space-y-1">
 					<Label htmlFor="name">Name</Label>
 					<Input name="name" id="name" />
-					{state?.fieldErrors?.name && (
+					{state?.errors?.name && (
 						<p className="font-medium text-red-500 text-xs dark:text-red-400">
-							{state.fieldErrors.name[0]}
+							{state.errors.name[0]}
 						</p>
 					)}
 				</div>
@@ -47,9 +47,9 @@ export function SignUpForm() {
 				<div className="space-y-1">
 					<Label htmlFor="email">Email</Label>
 					<Input name="email" type="email" id="email" />
-					{state?.fieldErrors?.email && (
+					{state?.errors?.email && (
 						<p className="font-medium text-red-500 text-xs dark:text-red-400">
-							{state.fieldErrors.email[0]}
+							{state.errors.email[0]}
 						</p>
 					)}
 				</div>
@@ -57,9 +57,9 @@ export function SignUpForm() {
 				<div className="space-y-1">
 					<Label htmlFor="password">Password</Label>
 					<Input name="password" type="password" id="password" />
-					{state?.fieldErrors?.password && (
+					{state?.errors?.password && (
 						<p className="font-medium text-red-500 text-xs dark:text-red-400">
-							{state.fieldErrors.password[0]}
+							{state.errors.password[0]}
 						</p>
 					)}
 				</div>
@@ -71,9 +71,9 @@ export function SignUpForm() {
 						type="password"
 						id="password_confirmation"
 					/>
-					{state?.fieldErrors?.password_confirmation && (
+					{state?.errors?.password_confirmation && (
 						<p className="font-medium text-red-500 text-xs dark:text-red-400">
-							{state.fieldErrors.password_confirmation[0]}
+							{state.errors.password_confirmation[0]}
 						</p>
 					)}
 				</div>

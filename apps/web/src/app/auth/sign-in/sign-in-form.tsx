@@ -41,9 +41,9 @@ export function SignInForm() {
 				<div className="space-y-1">
 					<Label htmlFor="email">Email</Label>
 					<Input name="email" type="email" id="email" />
-					{state?.fieldErrors?.email && (
+					{state?.errors?.email && (
 						<p className="font-medium text-red-500 text-xs dark:text-red-400">
-							{state.fieldErrors.email[0]}
+							{state.errors.email[0]}
 						</p>
 					)}
 				</div>
@@ -51,9 +51,9 @@ export function SignInForm() {
 				<div className="space-y-1">
 					<Label htmlFor="password">Password</Label>
 					<Input name="password" type="password" id="password" />
-					{state?.fieldErrors?.password && (
+					{state?.errors?.password && (
 						<p className="font-medium text-red-500 text-xs dark:text-red-400">
-							{state?.fieldErrors.password[0]}
+							{state?.errors.password[0]}
 						</p>
 					)}
 					<Link
