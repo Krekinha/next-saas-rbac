@@ -6,9 +6,5 @@ interface RevokeInviteResponse {
 }
 
 export async function revokeInvite({ org, inviteId }: RevokeInviteResponse) {
-	const result = await api
-		.delete(`organizations/${org}/invites/${inviteId}`)
-		.json<RevokeInviteResponse>();
-
-	return result;
+	await api.delete(`organizations/${org}/invites/${inviteId}`);
 }
