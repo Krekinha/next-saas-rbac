@@ -7,8 +7,9 @@ import { getInvite } from "@/http/get-invite";
 import { AvatarFallback } from "@radix-ui/react-avatar";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { CheckCircle, LogIn } from "lucide-react";
+import { CheckCircle, LogIn, LogOut } from "lucide-react";
 import { cookies } from "next/headers";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 dayjs.extend(relativeTime);
@@ -96,6 +97,40 @@ export default async function InvitePage({ params }: InvitePageProps) {
 						</Button>
 					</form>
 				)}
+
+				{isUserAuthenticated &&
+					!userIsAuthenticatedWithSameEmailFromInvite && (
+						<div className="space-y-4">
+							<p className="text-balance text-center text-muted-foreground text-sm leading-relaxed">
+								This invite was sent to{" "}
+								<span className="font-medium text-foreground">
+									{invite.email}
+								</span>{" "}
+								but currently authenticated as{" "}
+								<span className="font-medium text-foreground">
+									{currentUserEmail}
+								</span>
+								.
+							</p>
+
+							<div className="space-y-2">
+								<Button
+									className="w-full"
+									variant="secondary"
+									asChild
+								>
+									<a href="/api/auth/sign-out">
+										<LogOut className="mr-2 size-4" />
+										Sign out from {currentUserEmail}
+									</a>
+								</Button>
+
+								<Button className="w-full" variant="outline" asChild>
+									<Link href="/">Back to dashboard</Link>
+								</Button>
+							</div>
+						</div>
+					)}
 			</div>
 		</div>
 	);
