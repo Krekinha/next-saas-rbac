@@ -10,40 +10,44 @@ import { useFormState } from "@/hooks/use-form-state";
 import { AlertTriangle, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signInWithGithub } from "../actions";
 import { signInWithEmailAndPassword } from "./actions";
 
 export function SignInForm() {
-	const [state, isPending, formAction] = useFormState(
-		signInWithEmailAndPassword,
-		onSuccess,
-	);
-
 	const router = useRouter();
+	const searchParams = useSearchParams();
 
-	function onSuccess() {
-		router.push("/");
-	}
+	const [{ success, message, errors }, handleSubmit, isPending] = useFormState(
+		signInWithEmailAndPassword,
+		() => {
+			router.push("/");
+		},
+	);
 
 	return (
 		<div className="space-y-4">
-			<form onSubmit={formAction} className="space-y-4">
-				{state.success === false && state.message && (
+			<form onSubmit={handleSubmit} className="space-y-4">
+				{success === false && message && (
 					<Alert variant="destructive">
 						<AlertTriangle className="size-4" />
 						<AlertTitle>Sign in failed</AlertTitle>
 						<AlertDescription>
-							<p>{state.message}</p>
+							<p>{message}</p>
 						</AlertDescription>
 					</Alert>
 				)}
 				<div className="space-y-1">
 					<Label htmlFor="email">Email</Label>
-					<Input name="email" type="email" id="email" />
-					{state?.errors?.email && (
+					<Input
+						name="email"
+						type="email"
+						id="email"
+						defaultValue={searchParams.get("email") ?? ""}
+					/>
+					{errors?.email && (
 						<p className="font-medium text-red-500 text-xs dark:text-red-400">
-							{state.errors.email[0]}
+							{errors.email[0]}
 						</p>
 					)}
 				</div>
@@ -51,9 +55,9 @@ export function SignInForm() {
 				<div className="space-y-1">
 					<Label htmlFor="password">Password</Label>
 					<Input name="password" type="password" id="password" />
-					{state?.errors?.password && (
+					{errors?.password && (
 						<p className="font-medium text-red-500 text-xs dark:text-red-400">
-							{state?.errors.password[0]}
+							{errors.password[0]}
 						</p>
 					)}
 					<Link

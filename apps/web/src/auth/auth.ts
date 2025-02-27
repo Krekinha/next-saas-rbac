@@ -5,8 +5,9 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function isAuthenticated() {
-	const cookiesInstance = await cookies();
-	return !!cookiesInstance.get("token")?.value;
+	return !!(await cookies()).get("token")?.value;
+	// const cookiesInstance = await cookies();
+	// return !!cookiesInstance.get("token")?.value;
 	// return getCookie("token");
 }
 
@@ -47,8 +48,7 @@ export async function ability() {
 }
 
 export async function auth() {
-	const cookiesInstance = await cookies();
-	const token = cookiesInstance.get("token")?.value;
+	const token = (await cookies()).get("token")?.value;
 
 	// const token = getCookie("token");
 	// const token = (await cookies()).get("org")?.value;

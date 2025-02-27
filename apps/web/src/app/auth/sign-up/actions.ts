@@ -22,16 +22,15 @@ const signUpSchema = z
 	});
 
 export async function signUpAction(data: FormData) {
-	const validatedFields = signUpSchema.safeParse(Object.fromEntries(data));
-	if (!validatedFields.success) {
-		const fieldErrors = validatedFields.error.flatten().fieldErrors;
-		return {
-			success: false,
-			message: null,
-			fieldErrors,
-		};
+	const result = signUpSchema.safeParse(Object.fromEntries(data));
+
+	if (!result.success) {
+		const errors = result.error.flatten().fieldErrors;
+
+		return { success: false, message: null, errors };
 	}
-	const { name, email, password } = validatedFields.data;
+
+	const { name, email, password } = result.data;
 
 	try {
 		await signUp({
@@ -39,28 +38,21 @@ export async function signUpAction(data: FormData) {
 			email,
 			password,
 		});
-		return {
-			success: true,
-			message: null,
-			fieldErrors: null,
-		};
 	} catch (error) {
-		console.log(error);
 		if (error instanceof HTTPError) {
 			const { message } = await error.response.json();
 
-			return {
-				success: false,
-				message,
-				fieldErrors: null,
-			};
+			return { success: false, message, errors: null };
 		}
 
 		console.error(error);
+
 		return {
 			success: false,
-			message: "Unexpected error",
-			fieldErrors: null,
+			message: "Unexpected error, try again in a few minutes",
+			errors: null,
 		};
 	}
+
+	return { success: true, message: null, errors: null };
 }

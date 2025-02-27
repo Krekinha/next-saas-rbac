@@ -1,5 +1,6 @@
 "use server";
 
+import { acceptInvite } from "@/http/accept-invite";
 import { signInWithPassword } from "@/http/signin-with-password";
 import { HTTPError } from "ky";
 import { cookies } from "next/headers";
@@ -14,11 +15,11 @@ export async function signInWithEmailAndPassword(data: FormData) {
 	// console.log(data);
 	const validatedFields = signInSchema.safeParse(Object.fromEntries(data));
 	if (!validatedFields.success) {
-		const fieldErrors = validatedFields.error.flatten().fieldErrors;
+		const errors = validatedFields.error.flatten().fieldErrors;
 		return {
 			success: false,
 			message: null,
-			fieldErrors,
+			errors,
 		};
 	}
 	const { email, password } = validatedFields.data;
@@ -29,18 +30,21 @@ export async function signInWithEmailAndPassword(data: FormData) {
 			password,
 		});
 
-		console.log({ token });
-
 		(await cookies()).set("token", token, {
 			path: "/",
 			maxAge: 60 * 60 * 24 * 7, // 7 days
 		});
 
-		return {
-			success: true,
-			message: null,
-			fieldErrors: null,
-		};
+		const inviteId = (await cookies()).get("inviteId")?.value;
+
+		if (inviteId) {
+			try {
+				await acceptInvite(inviteId);
+				(await cookies()).delete("inviteId");
+			} catch {}
+		}
+
+		return { success: true, message: null, errors: null };
 	} catch (error) {
 		console.log(error);
 		if (error instanceof HTTPError) {
@@ -49,7 +53,7 @@ export async function signInWithEmailAndPassword(data: FormData) {
 			return {
 				success: false,
 				message,
-				fieldErrors: null,
+				errors: null,
 			};
 		}
 
@@ -57,7 +61,7 @@ export async function signInWithEmailAndPassword(data: FormData) {
 		return {
 			success: false,
 			message: "Unexpected error",
-			fieldErrors: null,
+			errors: null,
 		};
 	}
 }
