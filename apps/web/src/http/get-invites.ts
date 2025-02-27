@@ -1,7 +1,7 @@
 import type { Role } from "@saas/auth";
 import { api } from "./api-client";
 
-interface GetInviteResponse {
+interface GetInvitesResponse {
 	invites: {
 		id: string;
 		email: string;
@@ -21,7 +21,7 @@ export async function getInvites(org: string) {
 				tags: [`${org}/invites`],
 			},
 		})
-		.json<GetInviteResponse>();
+		.json<GetInvitesResponse>();
 
 	return result;
 }
